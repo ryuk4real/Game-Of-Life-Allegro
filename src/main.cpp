@@ -13,30 +13,26 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
-#define COLS 100
-#define ROWS 100
-#define GENERATIONS 500000
-
-#define MILLISECONDS_TO_WAIT_FOR_EACH_GENERATION 0
+#include "headers/Settings.hpp"
 
 #define BLACK 	al_map_rgb(0,		  0,		0)
 #define WHITE 	al_map_rgb(255,		255,	  255)
 #define RED     al_map_rgb(255,       0,        0)
 
-#define DISPLAY_HEIGHT 700
-#define DISPLAY_WIDTH 700
-#define SQUARE_HEIGHT DISPLAY_HEIGHT / COLS
+Settings settings;
 
-#define GENERATION_COUNTER_FONT_SIZE 36
-#define GENERATION_TEXT_COLOR RED
+const int columns = settings.getMatrixSize();
+int rows = columns;
 
+int squareHeight = settings.getDisplaySize() / columns;
 
+int genetationTypefaceTextSize = settings.getGenerationTextTypefaceSize();
+#define TEXT_COLOR settings.getGenerationTextColor()
 
+int waitTime = settings.getMillisecodsToWaitForEachGeneration();
 
-int *currentGeneration = new int[COLS * ROWS];
-int *newGeneration = new int[COLS * ROWS];
-
-
+int *currentGeneration = new int[columns * rows];
+int *newGeneration = new int[columns * rows];
 
 
 void initializeFirstGenerationWithGlider();
@@ -66,27 +62,27 @@ int main(int args, char **argv)
 	}
 
 	// Create the display
-	display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+	display = al_create_display(settings.getDisplaySize(), settings.getDisplaySize());
+    
 	if (!display)
 	{
 		fprintf(stderr, "Failed to create display.\n");
 		return 1;
-	}
-
-
+    }
 
     al_init_primitives_addon();
     al_init_font_addon();
     al_init_ttf_addon();
 
-    ALLEGRO_FONT *fontUbuntuB = al_load_font("fonts/Ubuntu-B.ttf", GENERATION_COUNTER_FONT_SIZE, 1);
+    
+    ALLEGRO_FONT *fontUbuntuB = al_load_font("fonts/Ubuntu-B.ttf",
+                                             36,
+                                             1);
     
 	al_clear_to_color(WHITE);
 	al_flip_display();
 
     // ---------------------------------------------------------------
-
-
 
 
 
@@ -96,17 +92,17 @@ int main(int args, char **argv)
     initializeRandomFirstGeneration();
     //initializeFirstGenerationWithGlider();
 
-    for (int i = 0; i < GENERATIONS; ++i)
+    for (int i = 0; i < settings.getNumberOfGenerations(); ++i)
     {
         generateNextGeneration();
         swapLastGeneration();
 
 
         std::string generation = std::to_string(i);
-        al_draw_text(fontUbuntuB, GENERATION_TEXT_COLOR, 10, 10, ALLEGRO_ALIGN_LEFT, generation.c_str());
+        al_draw_text(fontUbuntuB, TEXT_COLOR, 10, 10, ALLEGRO_ALIGN_LEFT, generation.c_str());
 
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(MILLISECONDS_TO_WAIT_FOR_EACH_GENERATION));
+        std::this_thread::sleep_for(std::chrono::milliseconds(settings.getMillisecodsToWaitForEachGeneration()));
         al_flip_display();
         al_clear_to_color(WHITE);
     }
@@ -134,9 +130,9 @@ int main(int args, char **argv)
 
 void initializeFirstGenerationWithGlider()
 {
-    for (int i = 0; i < ROWS; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-        for (int j = 0; j < COLS; ++j)
+        for (int j = 0; j < columns; ++j)
         {
             currentGeneration[m(i,j)] = 0;
             newGeneration[m(i,j)] = 0;
@@ -144,8 +140,8 @@ void initializeFirstGenerationWithGlider()
     }
     
     //inserisco un glider
-    int i = ROWS / 2;
-    int j = COLS / 2;
+    int i = rows / 2;
+    int j = columns / 2;
 
     currentGeneration[m(0,0)] = 1;
 
@@ -158,9 +154,10 @@ void initializeFirstGenerationWithGlider()
 
 void initializeRandomFirstGeneration()
 {
-    for (int i = 0; i < ROWS; ++i)
+    for (int i = 0; i < rows
+; ++i)
     {
-        for (int j = 0; j < COLS; ++j)
+        for (int j = 0; j < columns; ++j)
         {
             currentGeneration[m(i,j)] = rand()%2;
             newGeneration[m(i,j)] = 0;
@@ -177,9 +174,9 @@ void swapLastGeneration()
 
 void generateNextGeneration()
 {
-    for (int i = 0; i < ROWS; ++i)
+    for (int i = 0; i < rows; ++i)
     {
-        for (int j = 0; j < COLS; ++j)
+        for (int j = 0; j < columns; ++j)
         {
 
             transictionCell(i,j);
@@ -200,7 +197,7 @@ void transictionCell(int i, int j)
 
             if ((r != 0 || c != 0))
             {
-                if (currentGeneration[m((i + r + ROWS) % ROWS, ((j + c + COLS) % COLS))] == 1)
+                if (currentGeneration[m((i + r + rows) % rows, ((j + c + columns) % columns))] == 1)
                 {
                     ++neighbours;
                 }           
@@ -230,14 +227,14 @@ void transictionCell(int i, int j)
 
 int m(int i, int j)
 {
-    return ((i * COLS) + j);
+    return ((i * columns) + j);
 }
 
 void drawCell(int i, int j, ALLEGRO_COLOR cellColor)
 {
-   al_draw_filled_rectangle(i * SQUARE_HEIGHT,
-                            j * SQUARE_HEIGHT,
-                            i * SQUARE_HEIGHT + SQUARE_HEIGHT,
-                            j * SQUARE_HEIGHT + SQUARE_HEIGHT,
+   al_draw_filled_rectangle(i * squareHeight,
+                            j * squareHeight,
+                            i * squareHeight + squareHeight,
+                            j * squareHeight + squareHeight,
                             cellColor);
 }
