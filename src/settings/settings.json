@@ -4,11 +4,11 @@
 
         "numberOfGenerations": 10000,
         "generationTextColor": [255,0,0],
-        "generationTypefaceSize": 36,
-        "displaySize": 1000,
-        "matrixSize": 500,
+        "generationTypefaceSize": 20,
+        "displaySize": 800,
+        "matrixSize": 200,
         "aliveCellColor": [0,0,0],
         "deadCellColor": [255,255,255],
-        "millisecondsToWaitForEachGeneration": 0
+        "millisecondsToWaitForEachGeneration": 200
     }
 }

@@ -27,12 +27,14 @@ int rows = columns;
 int squareHeight = settings.getDisplaySize() / columns;
 
 int genetationTypefaceTextSize = settings.getGenerationTextTypefaceSize();
-#define TEXT_COLOR settings.getGenerationTextColor()
 
 int waitTime = settings.getMillisecodsToWaitForEachGeneration();
 
 int *currentGeneration = new int[columns * rows];
 int *newGeneration = new int[columns * rows];
+
+ALLEGRO_COLOR aliveCellColor;
+ALLEGRO_COLOR deadCellColor;
 
 
 void initializeFirstGenerationWithGlider();
@@ -75,11 +77,23 @@ int main(int args, char **argv)
     al_init_ttf_addon();
 
     
-    ALLEGRO_FONT *fontUbuntuB = al_load_font("fonts/Ubuntu-B.ttf",
-                                             36,
-                                             1);
+    //Font and colors
+    ALLEGRO_FONT *fontUbuntuB = al_load_font("fonts/Ubuntu-B.ttf", settings.getGenerationTextTypefaceSize(), 1);
+
+    ALLEGRO_COLOR generationTextColor = al_map_rgb(settings.getGenerationTextColor().r,
+                                                   settings.getGenerationTextColor().g,
+                                                   settings.getGenerationTextColor().b  );
+
     
-	al_clear_to_color(WHITE);
+    aliveCellColor = al_map_rgb(settings.getAliveCellColor().r,
+                                              settings.getAliveCellColor().g,
+                                              settings.getAliveCellColor().b  );
+    
+    deadCellColor = al_map_rgb(settings.getDeadCellColor().r,
+                                              settings.getDeadCellColor().g,
+                                              settings.getDeadCellColor().b  );
+    
+	al_clear_to_color(deadCellColor);
 	al_flip_display();
 
     // ---------------------------------------------------------------
@@ -99,12 +113,12 @@ int main(int args, char **argv)
 
 
         std::string generation = std::to_string(i);
-        al_draw_text(fontUbuntuB, TEXT_COLOR, 10, 10, ALLEGRO_ALIGN_LEFT, generation.c_str());
+        al_draw_text(fontUbuntuB, generationTextColor, 10, 10, ALLEGRO_ALIGN_LEFT, generation.c_str());
 
 
         std::this_thread::sleep_for(std::chrono::milliseconds(settings.getMillisecodsToWaitForEachGeneration()));
         al_flip_display();
-        al_clear_to_color(WHITE);
+        al_clear_to_color(deadCellColor);
     }
 
     // ---------------------------------------------------------------
@@ -209,18 +223,25 @@ void transictionCell(int i, int j)
             if (neighbours == 2 || neighbours == 3)
             {
                 newGeneration[m(i,j)] = 1;
-                drawCell(i,j, BLACK);
+                drawCell(i,j, aliveCellColor);
             }
-            else newGeneration[m(i,j)] = 0;
+            else 
+            {
+                newGeneration[m(i,j)] = 0;
+
+            }
         }
         else
         {
             if (neighbours == 3)
             {
                 newGeneration[m(i,j)] = 1;
-                drawCell(i,j, BLACK);
+                drawCell(i,j, aliveCellColor);
             }
-            else newGeneration[m(i,j)] = 0;
+            else
+            {
+                newGeneration[m(i,j)] = 0;
+            }
         }
     }
 }

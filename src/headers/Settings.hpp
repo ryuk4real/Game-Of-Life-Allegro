@@ -12,21 +12,24 @@ using json = nlohmann::json;
 
 using namespace std;
 
+struct rgb{int r; int g; int b;};
+
 class Settings
 {
+
     private:
 
         bool areSettingsDefault;
 
         int numberOfGenerations;
-        ALLEGRO_COLOR generationTextColor;
+        rgb generationTextColor;
         int generationTypefaceSize;
 
         int displaySize;
         int matrixSize;
 
-        ALLEGRO_COLOR aliveCellColor;
-        ALLEGRO_COLOR deadCellColor;
+        rgb aliveCellColor;
+        rgb deadCellColor;
 
         int millisecondsToWaitForEachGeneration;
     
@@ -42,19 +45,19 @@ class Settings
 
 
         // Setters --------------------------------------------------------------------------------------------------------
-        void setAreSettingsDefault(bool _areSettingdsDEfault) {areSettingsDefault = areSettingsDefault;}
+        void setAreSettingsDefault(bool &_areSettingdsDEfault) {areSettingsDefault = areSettingsDefault;}
 
-        void setNumberOfGenerations(int _numberOfGeneration) {numberOfGenerations = _numberOfGeneration;}
-        void setGenerationTextColor(ALLEGRO_COLOR _generationTextColor) {generationTextColor = _generationTextColor;}
-        void setGenerationTypeaceSize(int _typefaceSize) {generationTypefaceSize = _typefaceSize;}
+        void setNumberOfGenerations(int &_numberOfGeneration) {numberOfGenerations = _numberOfGeneration;}
+        void setGenerationTextColor(rgb &_generationTextColor) {generationTextColor = _generationTextColor;}
+        void setGenerationTypeaceSize(int &_typefaceSize) {generationTypefaceSize = _typefaceSize;}
         
-        void setDisplaySize(int _displaySize) {displaySize = _displaySize;}
-        void setMatrixSize(int _matrixSize) {matrixSize = _matrixSize;}
+        void setDisplaySize(int &_displaySize) {displaySize = _displaySize;}
+        void setMatrixSize(int &_matrixSize) {matrixSize = _matrixSize;}
 
-        void setAliveCellColor(ALLEGRO_COLOR _aliveCellColor) {aliveCellColor = _aliveCellColor;}
-        void setDeadCellColor(ALLEGRO_COLOR _deadCellColor) {deadCellColor = _deadCellColor;}
+        void setAliveCellColor(rgb &_aliveCellColor) {aliveCellColor = _aliveCellColor;}
+        void setDeadCellColor(rgb &_deadCellColor) {deadCellColor = _deadCellColor;}
 
-        void setMillisecondsToWaitForEachGeneration(int _millisecondsToWaitForEachGeneration) {millisecondsToWaitForEachGeneration = _millisecondsToWaitForEachGeneration;}
+        void setMillisecondsToWaitForEachGeneration(int &_millisecondsToWaitForEachGeneration) {millisecondsToWaitForEachGeneration = _millisecondsToWaitForEachGeneration;}
         // -----------------------------------------------------------------------------------------------------------------
 
 
@@ -62,14 +65,14 @@ class Settings
 
         // Getters -------------------------------------------------------------------------------------
         int getNumberOfGenerations() const {return numberOfGenerations;}
-        ALLEGRO_COLOR getGenerationTextColor() const {return generationTextColor;}
+        rgb getGenerationTextColor() const {return generationTextColor;}
         int getGenerationTextTypefaceSize() const {return generationTypefaceSize;}
 
         int getDisplaySize() const {return displaySize;}
         int getMatrixSize() const {return matrixSize;}
 
-        ALLEGRO_COLOR getAliveCellColor() const {return aliveCellColor;}
-        ALLEGRO_COLOR getDeadCellColor() const {return deadCellColor;}
+        rgb getAliveCellColor() const {return aliveCellColor;}
+        rgb getDeadCellColor() const {return deadCellColor;}
         int getMillisecodsToWaitForEachGeneration() const {return millisecondsToWaitForEachGeneration;}
         // ----------------------------------------------------------------------------------------------
 
@@ -87,7 +90,9 @@ Settings::Settings()
 
     numberOfGenerations = jsonSettings["Settings"]["numberOfGenerations"];
 
-    //TODO: Generation text color
+    generationTextColor.r = jsonSettings["Settings"]["generationTextColor"][0];
+    generationTextColor.g = jsonSettings["Settings"]["generationTextColor"][1];
+    generationTextColor.b = jsonSettings["Settings"]["generationTextColor"][2];
 
     generationTypefaceSize = jsonSettings["Settings"]["generationTypefaceSize"];
 
@@ -95,7 +100,15 @@ Settings::Settings()
 
     matrixSize = jsonSettings["Settings"]["matrixSize"];
 
-    //TODO: dead/alive cell color
+    aliveCellColor.r = jsonSettings["Settings"]["aliveCellColor"][0];
+    aliveCellColor.g = jsonSettings["Settings"]["aliveCellColor"][1];
+    aliveCellColor.b = jsonSettings["Settings"]["aliveCellColor"][2];
+
+    deadCellColor.r = jsonSettings["Settings"]["deadCellColor"][0];
+    deadCellColor.g = jsonSettings["Settings"]["deadCellColor"][1];
+    deadCellColor.b = jsonSettings["Settings"]["deadCellColor"][2];
+
+    generationTypefaceSize = jsonSettings["Settings"]["generationTypefaceSize"];
 
     millisecondsToWaitForEachGeneration = jsonSettings["Settings"]["millisecondsToWaitForEachGeneration"];
 
