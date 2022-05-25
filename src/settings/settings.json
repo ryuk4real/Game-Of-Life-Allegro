@@ -1,0 +1,14 @@
+{
+    "Settings" :
+    {
+
+        "numberOfGenerations": 10000,
+        "generationTextColor": [255,0,0],
+        "generationTypefaceSize": 20,
+        "displaySize": 800,
+        "matrixSize": 200,
+        "aliveCellColor": [0,0,0],
+        "deadCellColor": [255,255,255],
+        "millisecondsToWaitForEachGeneration": 200
+    }
+}
