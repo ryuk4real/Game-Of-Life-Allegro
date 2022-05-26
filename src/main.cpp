@@ -44,7 +44,7 @@ void swapLastGeneration();
 void generateNextGeneration();
 void transictionCell(int i, int j);
 
-int m(int i, int j);
+inline int m(int i, int j);
 
 void drawCell(int i, int j, ALLEGRO_COLOR cellColor);
 
@@ -246,7 +246,7 @@ void transictionCell(int i, int j)
     }
 }
 
-int m(int i, int j)
+inline int m(int i, int j)
 {
     return ((i * columns) + j);
 }
