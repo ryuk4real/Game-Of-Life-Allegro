@@ -2,6 +2,7 @@
 ---
 
 - [About](#About)
+-   [Customization](#Customization)
 - [License](#License)
 - [Citations](#Citations)
 
@@ -12,6 +13,13 @@
 # About
 ---
 This repository, as you can guess by its name, is a reproduction of the famous [Conay's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). It's implemented in C++ with the Allegro5 graphic library.
+
+## Customization
+Use the [json file](https://github.com/ryuk4real/Game-Of-Life-Allegro/blob/main/src/settings/settings.json) for chaning the color of dead/alive cells, grid and windows size, etc.
+
+![Screenshot from 2022-05-26 15-50-01](https://user-images.githubusercontent.com/84407165/170502091-5b12366b-19d4-4965-87a7-cc0e178f8c9c.png|400)
+![Screenshot from 2022-05-26 15-53-09](https://user-images.githubusercontent.com/84407165/170502141-be2d4f03-15d9-4ad7-b53f-508aafd55c21.png|400)
+
 
 # License
 ---
