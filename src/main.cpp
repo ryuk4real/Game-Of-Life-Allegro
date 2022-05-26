@@ -15,10 +15,6 @@
 
 #include "headers/Settings.hpp"
 
-#define BLACK 	al_map_rgb(0,		  0,		0)
-#define WHITE 	al_map_rgb(255,		255,	  255)
-#define RED     al_map_rgb(255,       0,        0)
-
 Settings settings;
 
 const int columns = settings.getMatrixSize();
@@ -42,7 +38,7 @@ void initializeRandomFirstGeneration();
 
 void swapLastGeneration();
 void generateNextGeneration();
-void transictionCell(int i, int j);
+inline void transictionCell(int i, int j);
 
 inline int m(int i, int j);
 
@@ -86,12 +82,12 @@ int main(int args, char **argv)
 
     
     aliveCellColor = al_map_rgb(settings.getAliveCellColor().r,
-                                              settings.getAliveCellColor().g,
-                                              settings.getAliveCellColor().b  );
+                                settings.getAliveCellColor().g,
+                                settings.getAliveCellColor().b  );
     
     deadCellColor = al_map_rgb(settings.getDeadCellColor().r,
-                                              settings.getDeadCellColor().g,
-                                              settings.getDeadCellColor().b  );
+                               settings.getDeadCellColor().g,
+                               settings.getDeadCellColor().b  );
     
 	al_clear_to_color(deadCellColor);
 	al_flip_display();
@@ -199,7 +195,7 @@ void generateNextGeneration()
     }
 }
 
-void transictionCell(int i, int j)
+inline void transictionCell(int i, int j)
 {
 
     int neighbours = 0;
