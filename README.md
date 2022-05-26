@@ -17,8 +17,8 @@ This repository, as you can guess by its name, is a reproduction of the famous [
 ## Customization
 Use the [json file](https://github.com/ryuk4real/Game-Of-Life-Allegro/blob/main/src/settings/settings.json) for chaning the color of dead/alive cells, grid and windows size, etc.
 
-![title](img/bwautomaton.png|400)
-![title](img/wbautomaton.png|400)
+<img src="https://github.com/ryuk4real/Game-Of-Life-Allegro/blob/main/img/bwautomaton.png" alt="Your image title" width="400"/>
+<img src="https://github.com/ryuk4real/Game-Of-Life-Allegro/blob/main/img/wbautomaton.png" alt="Your image title" width="400"/>
 
 
 # License
