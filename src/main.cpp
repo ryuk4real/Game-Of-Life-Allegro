@@ -164,8 +164,7 @@ void initializeFirstGenerationWithGlider()
 
 void initializeRandomFirstGeneration()
 {
-    for (int i = 0; i < rows
-; ++i)
+    for (int i = 0; i < rows; ++i)
     {
         for (int j = 0; j < columns; ++j)
         {
